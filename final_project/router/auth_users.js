@@ -36,7 +36,7 @@ regd_users.post("/login", (req,res) => {
         // Generate JWT access token
         let accessToken = jwt.sign({
             data: password
-        }, 'access', { expiresIn: 60 });
+        }, 'access', { expiresIn: 60*60 });
 
         // Store access token and username in session
         req.session.authorization = {
@@ -57,7 +57,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         let review = req.body.review;
         book.reviews[username] = review;
 
-        res.send("Book of isbn ${isbn} review updated")
+        res.send(`Book of isbn ${isbn} review updated`)
     }
     else {
         res.send("Unable to find book")
@@ -75,7 +75,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
             if (book.reviews[username]){
                 delete book.reviews[username];
             }     
-            res.send("Book of isbn ${isbn} review deleted")
+            res.send(`Book of isbn ${isbn} review deleted`)
         }
         else {
             res.send("Unable to find book")
